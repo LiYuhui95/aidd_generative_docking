@@ -1,0 +1,32 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "aidd-generative-docking"
+version = "0.0.1"
+description = "Minimal research implementation of equivariant Flow Matching for protein-ligand binding pose generation."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "Yuhui Li" }]
+
+# Declared for future use. Nothing here is installed by this commit.
+dependencies = [
+    "torch>=2.2",
+    "torch-geometric>=2.5",
+    "rdkit>=2024.3.2",
+    "numpy",
+    "scipy",
+    "pyyaml",
+]
+
+[project.optional-dependencies]
+dev = ["pytest", "ruff"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]

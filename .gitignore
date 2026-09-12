@@ -1,0 +1,41 @@
+# --- data ---
+data/raw/
+data/processed/
+
+# --- experiment outputs / checkpoints ---
+outputs/
+checkpoints/
+*.ckpt
+*.pt
+*.pth
+
+# --- python ---
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# --- environments ---
+.venv/
+venv/
+env/
+
+# --- notebooks ---
+.ipynb_checkpoints/
+
+# --- logs / experiment tracking ---
+*.log
+wandb/
+lightning_logs/
+mlruns/
+
+# --- editor / OS ---
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

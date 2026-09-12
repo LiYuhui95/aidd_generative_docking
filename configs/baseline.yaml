@@ -1,0 +1,47 @@
+# Baseline experiment config (placeholder).
+# Values are illustrative defaults for a future minimal run on a small
+# PDBBind subset; nothing in this file is consumed by an implemented
+# training loop yet.
+
+experiment:
+  name: baseline
+  seed: 0
+  device: cuda # GPU-first; falls back to cpu if unavailable
+
+data:
+  pdbbind_subset_dir: data/raw/pdbbind_subset
+  processed_dir: data/processed/pdbbind_subset
+  max_ligand_atoms: 60
+  pocket_radius_angstrom: 10.0
+  train_val_test_split: [0.8, 0.1, 0.1]
+
+protein_representation:
+  graph_type: residue_pocket
+  node_features: [aatype, ca_coords]
+  edge_cutoff_angstrom: 8.0
+
+ligand_representation:
+  graph_type: molecular_graph
+  node_features: [atomic_number, formal_charge, hybridization]
+  use_rdkit_conformer: true
+
+model:
+  name: equivariant_flow_matching_v0
+  hidden_dim: 128
+  num_layers: 4
+  equivariant_backbone: e3nn # placeholder choice, not yet implemented
+
+flow_matching:
+  path_type: linear # x_t = (1 - t) * x0 + t * x1
+  num_integration_steps: 50
+  prior: gaussian
+
+training:
+  batch_size: 4
+  num_epochs: 1
+  learning_rate: 1.0e-4
+  optimizer: adamw
+
+evaluation:
+  rmsd_success_threshold_angstrom: 2.0
+  num_generated_poses_per_complex: 5

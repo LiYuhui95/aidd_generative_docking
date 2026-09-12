@@ -53,19 +53,3 @@ src/aidd_generative_docking/
 tests/                        placeholder import + unit tests
 notebooks/                    exploratory notebooks
 ```
-
-## Running tests
-
-From the repo root, using the `sxt-torch` environment's Python directly
-(no install step required — `pyproject.toml` sets `pythonpath = ["src"]`
-for pytest):
-
-```
-conda run -n sxt-torch pytest
-```
-
-## Non-goals right now
-
-This commit intentionally does **not**: download PDBBind or any dataset,
-download model checkpoints, install new packages, or implement/train the
-full model. It only establishes the project skeleton and interfaces.

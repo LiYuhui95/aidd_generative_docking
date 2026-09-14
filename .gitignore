@@ -39,3 +39,8 @@ mlruns/
 .idea/
 .DS_Store
 Thumbs.db
+
+# --- personal job-hunt / interview prep notes (never share) ---
+JOB_HUNT_NOTES.md
+PLAYBOOK.md
+job_hunt_playbook.html

@@ -11,11 +11,11 @@ requires-python = ">=3.10"
 license = { text = "MIT" }
 authors = [{ name = "Yuhui Li" }]
 
-# Declared for future use. Nothing here is installed by this commit.
 dependencies = [
     "torch>=2.2",
     "torch-geometric>=2.5",
     "rdkit>=2024.3.2",
+    "biopython>=1.83",
     "numpy",
     "scipy",
     "pyyaml",

@@ -18,6 +18,43 @@ a small, honestly-scoped v1: rigid ligand, rigid pocket, no affinity
 prediction, no virtual screening — see Limitations in
 [ARCHITECTURE.md](ARCHITECTURE.md).
 
+## Representative results
+
+Full interactive writeup (diagrams + all charts, built from the same saved
+JSON): **[Rigid-Body Docking Flow Matching](https://claude.ai/code/artifact/8cc86170-aeeb-43ec-97a7-6f9ed28e895b)**.
+The two plots below are the project's two central findings.
+
+### 1. The dead-zone ablation
+
+<img src="report/figures/ablation_hard_vs_soft.png" alt="Left: training loss over 3000 epochs for the hard-cutoff model (plateaus around 39) vs. the soft-weighted model (converges to about 11). Right: per-complex final RMSD for both models across the same 10 complexes, with the soft model below the hard model for 8 of 10.">
+
+Hypothesis: a hard distance cutoff on protein-ligand interaction edges
+creates a gradient **dead zone** when a randomized ligand pose starts far
+from the pocket (zero edges &rarr; exactly zero gradient from that term).
+Tested with a controlled ablation &mdash; identical architecture, seed,
+epochs, and hyperparameters, changing only masking&rarr;smooth weighting.
+**Confirmed**: hard-cutoff training loss plateaus at ~39; the soft-weighted
+model converges to ~11 under the exact same protocol (Table 1 in
+[ARCHITECTURE.md](ARCHITECTURE.md)).
+
+### 2. Held-out generalization (not an overfitting sanity check)
+
+<img src="report/figures/held_out_results.png" alt="Left: train and validation loss over 150 epochs, with the best checkpoint marked at epoch 104. Middle: scatter of initial vs. final RMSD for 80 held-out test complexes, most points below the diagonal. Right: final RMSD vs. ligand size, showing smaller ligands generalize better.">
+
+The final soft-weighted model, architecturally unchanged, trained on 640
+complexes and evaluated **exactly once** on 80 disjoint, never-seen test
+complexes (deterministic, protein/ligand-similarity-aware split — see
+[ARCHITECTURE.md](ARCHITECTURE.md)):
+
+- Mean RMSD **10.29 &rarr; 7.14 &Aring;**, median **10.24 &rarr; 6.75 &Aring;**
+- Success rate **25% @5 &Aring;**, **0% @2 &Aring;** (stated plainly — not a
+  competitive docking result)
+- Smaller ligands generalize markedly better: 5.08 &Aring; mean RMSD for
+  12&ndash;36-atom ligands vs. 8.61 &Aring; for 51&ndash;72-atom ligands
+
+This is a small, honestly-scoped v1 result: real signal that the model
+learned something structurally sensible, not a benchmark claim.
+
 ## Project stages (all complete for this project's v1 scope)
 
 1. ✅ PDBBind data preparation (real PDBBind v2020.R1 archive; see
@@ -85,6 +122,9 @@ src/aidd_generative_docking/
 tests/                         unit tests for every module above (see below)
 notebooks/                     runnable scripts: data inspection, smoke experiments,
                                 dataset preparation, and the final held-out experiment
+report/                        tracked, shareable deliverables
+    experiment_report.html         full interactive writeup (published as an Artifact)
+    figures/                       representative PNGs embedded in this README
 outputs/                       gitignored experiment outputs (JSON summaries, plots, checkpoints)
 ```
 
